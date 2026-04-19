@@ -5,7 +5,7 @@ import ActionBreakdown from './ActionBreakdown';
 import TopUsersTable from './TopUsersTable';
 import WindowMetrics from './WindowMetrics';
 import EventForm from './EventForm';
-import { Activity, RefreshCw } from 'lucide-react';
+import {  RefreshCw } from 'lucide-react';
 
 const Dashboard = () => {
   const [platform, setPlatform] = useState('amazon');
@@ -49,7 +49,7 @@ const Dashboard = () => {
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
         <div>
           <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <Activity color="#58a6ff" size={32} /> Real-Time Analytics
+             Real-Time Analytics
           </h1>
           <p style={{ color: 'var(--text-secondary)' }}>Monitoring platform events and revenue live</p>
         </div>
