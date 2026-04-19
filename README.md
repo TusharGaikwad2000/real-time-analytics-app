@@ -68,9 +68,9 @@ I chose **PostgreSQL** with **Sequelize ORM** because:
    - *Benefit*: Extremely fast performance without requiring a separate Redis setup for local testing.
 3. **Sliding Window Accuracy**: Unlike the main metrics, the **Sliding Window** is calculated on-the-fly from the `events` table to ensure 100% accuracy for the "Last N minutes".
 
-## API Documentation
-
-### Ingestion
+### API Documentation & Postman
+- **Manual Docs**: See the section below for endpoint details.
+- **Postman Collection**: I have included a [**postman_collection.json**](file:///c:/Users/gaikw/Downloads/real-time-analytics-app/postman_collection.json) file in the root directory. You can import this into Postman to test all endpoints instantly.
 - `POST /events`: Ingest single event.
 - `POST /events/bulk`: Ingest array of events.
 - *Bonus*: Rate limited to 100 req/min/IP.

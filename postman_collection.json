@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "885ecc9c-d2fc-4f81-b53e-518c1035b9b1",
+		"name": "Real-Time Analytics API",
+		"description": "Postman collection for the Real-Time Analytics Assignment. Includes ingestion and analytics endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Ingestion",
+			"item": [
+				{
+					"name": "Ingest Single Event",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"u123\",\n    \"platform\": \"amazon\",\n    \"action\": \"purchase\",\n    \"amount\": 499,\n    \"timestamp\": 1710000000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/events",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ingest Bulk Events",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"userId\": \"u123\",\n        \"platform\": \"amazon\",\n        \"action\": \"purchase\",\n        \"amount\": 499,\n        \"timestamp\": 1710000000\n    },\n    {\n        \"userId\": \"u456\",\n        \"platform\": \"ebay\",\n        \"action\": \"view\",\n        \"amount\": 0,\n        \"timestamp\": 1710000001\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/events/bulk",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events",
+								"bulk"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Analytics",
+			"item": [
+				{
+					"name": "Get Platform Metrics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/metrics?platform=amazon",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"metrics"
+							],
+							"query": [
+								{
+									"key": "platform",
+									"value": "amazon"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Top Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/top-users?platform=amazon&k=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"top-users"
+							],
+							"query": [
+								{
+									"key": "platform",
+									"value": "amazon"
+								},
+								{
+									"key": "k",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Window Metrics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/metrics/window?platform=amazon&minutes=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"metrics",
+								"window"
+							],
+							"query": [
+								{
+									"key": "platform",
+									"value": "amazon"
+								},
+								{
+									"key": "minutes",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		}
+	]
+}
