@@ -12,12 +12,16 @@ const models = {
 const initDb = async () => {
   try {
     await sequelize.authenticate();
-    console.log('Database connected successfully.');
+    console.log('✅ Database connected successfully.');
     // Sync models
-    await sequelize.sync({ force: false }); // Set to true to drop tables on every startup
-    console.log('Models synchronized.');
+    await sequelize.sync({ force: false }); 
+    console.log('✅ Models synchronized (Tables checked/created).');
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    console.error('❌ CRITICAL ERROR: Unable to connect to the database!');
+    console.error('Error Details:', error.message);
+    if (error.message.includes('database')) {
+      console.log(`💡 TIP: Make sure you have manually created the database named "${process.env.DB_NAME}" in your PostgreSQL server first.`);
+    }
   }
 };
 
