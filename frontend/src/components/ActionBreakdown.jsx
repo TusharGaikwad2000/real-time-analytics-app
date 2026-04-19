@@ -46,7 +46,16 @@ const ActionBreakdown = memo(({ data, loading }) => {
           />
           <Tooltip 
             cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-            contentStyle={{ background: '#161b22', borderColor: '#30363d', borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }}
+            contentStyle={{ 
+              background: '#161b22', 
+              borderColor: '#30363d', 
+              borderRadius: '8px', 
+              border: 'none', 
+              boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
+              padding: '10px'
+            }}
+            itemStyle={{ color: '#ffffff', fontSize: '14px', fontWeight: '500' }}
+            labelStyle={{ color: '#8b949e', marginBottom: '4px', fontSize: '12px' }}
           />
           <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={24}>
             {chartData.map((entry, index) => (

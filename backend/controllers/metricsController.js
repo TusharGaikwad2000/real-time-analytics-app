@@ -22,10 +22,11 @@ const getMetrics = async (req, res) => {
       return res.json(emptyResult);
     }
 
+    const defaultBreakdown = { view: 0, click: 0, add_to_cart: 0, purchase: 0 };
     const response = {
       totalEvents: metric.totalEvents,
       totalRevenue: metric.totalRevenue,
-      actionBreakdown: metric.actionBreakdown,
+      actionBreakdown: { ...defaultBreakdown, ...(metric.actionBreakdown || {}) },
       uniqueUsers: metric.uniqueUsers ? metric.uniqueUsers.length : 0
     };
 
@@ -82,10 +83,11 @@ const getWindowMetrics = async (req, res) => {
       if (e.action === 'purchase') revenue += (e.amount || 0);
     });
 
+    const defaultBreakdown = { view: 0, click: 0, add_to_cart: 0, purchase: 0 };
     const response = {
       totalEvents: rawEvents.length,
       totalRevenue: revenue,
-      actionBreakdown: breakdown,
+      actionBreakdown: { ...defaultBreakdown, ...breakdown },
       uniqueUsers: users.size
     };
 
