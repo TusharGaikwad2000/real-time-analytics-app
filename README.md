@@ -47,9 +47,20 @@ To avoid "brute force" scans for analytics:
 3. **In-Memory Caching**: Analytics results are cached for 30 seconds with automatic invalidation upon new event ingestion for that platform.
 4. **Sliding Window**: Computed on-the-fly from the `events` table but restricted by a `timestamp` index to ensure performance even with millions of rows.
 
-### Technology Choice: Sequelize ORM
-- Used for modularity and database abstraction.
-- Tables are automatically created/synced on startup (`sequelize.sync()`).
+### Database Choice
+I chose **PostgreSQL** with **Sequelize ORM** because:
+- **Relational Integrity**: Essential for tracking per-user totals and metric aggregations.
+- **JSONB Support**: Allows flexible storage of the `actionBreakdown` counters within a single row.
+- **Auto-Sync**: Sequelize allows for "Model-First" development where tables are created automatically.
+
+### Trade-offs Made
+1. **Write Latency vs. Read Speed**: I chose to perform **Atomic Pre-aggregation** during the `POST /events` call. 
+   - *Trade-off*: Event ingestion takes a few milliseconds longer (extra DB updates).
+   - *Benefit*: The Dashboard loads instantly ($O(1)$) because it doesn't have to calculate sums across millions of rows.
+2. **In-Memory vs. Distributed Cache**: I used an **in-memory Cache** for simplicity in this assignment.
+   - *Trade-off*: If you run multiple server instances, their caches won't be synced.
+   - *Benefit*: Extremely fast performance without requiring a separate Redis setup for local testing.
+3. **Sliding Window Accuracy**: Unlike the main metrics, the **Sliding Window** is calculated on-the-fly from the `events` table to ensure 100% accuracy for the "Last N minutes".
 
 ## API Documentation
 
