@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { analyticsApi } from '../api/analyticsApi';
 import MetricsCards from './MetricsCards';
 import ActionBreakdown from './ActionBreakdown';
@@ -16,7 +16,11 @@ const Dashboard = () => {
 
   const platforms = ['amazon', 'ebay', 'walmart', 'shopify'];
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async (isInitial = false) => {
+    if (isInitial) {
+      setMetrics(null);
+      setTopUsers([]);
+    }
     setLoading(true);
     try {
       const [mRes, tRes] = await Promise.all([
@@ -29,15 +33,16 @@ const Dashboard = () => {
     } catch (error) {
       console.error('Fetch error:', error);
     } finally {
-      setLoading(false);
+      // Small delay for smooth transition
+      setTimeout(() => setLoading(false), 500);
     }
-  };
+  }, [platform]);
 
   useEffect(() => {
-    fetchData();
-    const interval = setInterval(fetchData, 10000); // Auto-refresh every 10s
+    fetchData(true);
+    const interval = setInterval(() => fetchData(false), 10000); 
     return () => clearInterval(interval);
-  }, [platform]);
+  }, [fetchData]);
 
   return (
     <div className="dashboard-container">
@@ -64,17 +69,17 @@ const Dashboard = () => {
         </div>
       </header>
 
-      <MetricsCards metrics={metrics} />
+      <MetricsCards metrics={metrics} loading={loading} />
 
       <div className="secondary-grid">
         <div className="glass-card animate-fade-in">
           <h3 style={{ marginBottom: '1.5rem' }}>Action Breakdown</h3>
-          <ActionBreakdown data={metrics?.actionBreakdown} />
+          <ActionBreakdown data={metrics?.actionBreakdown} loading={loading} />
         </div>
         
         <div className="glass-card animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <h3 style={{ marginBottom: '1.5rem' }}>Top 5 Users</h3>
-          <TopUsersTable users={topUsers} platform={platform} />
+          <TopUsersTable users={topUsers} platform={platform} loading={loading} />
         </div>
       </div>
 

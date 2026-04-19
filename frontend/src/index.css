@@ -118,6 +118,37 @@ h1, h2, h3, h4 {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes shimmer {
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out forwards;
+}
+
+.skeleton {
+  background: #1c2128;
+  background-image: linear-gradient(
+    to right, 
+    #1c2128 0%, 
+    #2d333b 20%, 
+    #1c2128 40%, 
+    #1c2128 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 800px 104px;
+  display: inline-block;
+  position: relative;
+  animation: shimmer 1.5s linear infinite forwards;
+  border-radius: 4px;
+}
+
+.skeleton-text {
+  height: 1rem;
+  width: 100%;
+}
+
+.skeleton-circle {
+  border-radius: 50%;
 }

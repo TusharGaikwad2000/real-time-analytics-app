@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Award } from 'lucide-react';
+import Skeleton from './Skeleton';
 
-const TopUsersTable = ({ users, platform }) => {
+const TopUsersTable = memo(({ users, platform, loading }) => {
   return (
     <div style={{ overflowX: 'auto' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -12,7 +13,18 @@ const TopUsersTable = ({ users, platform }) => {
           </tr>
         </thead>
         <tbody>
-          {users.length === 0 ? (
+          {loading && users.length === 0 ? (
+            [1, 2, 3, 4, 5].map(idx => (
+              <tr key={idx} style={{ borderBottom: '1px solid var(--border)' }}>
+                <td style={{ padding: '1rem 0' }}>
+                  <Skeleton className="skeleton-text" style={{ width: '60%' }} />
+                </td>
+                <td style={{ padding: '1rem 0', textAlign: 'right' }}>
+                  <Skeleton className="skeleton-text" style={{ width: '40%', marginLeft: 'auto' }} />
+                </td>
+              </tr>
+            ))
+          ) : users.length === 0 ? (
             <tr>
               <td colSpan="2" style={{ padding: '2rem 0', textAlign: 'center', color: 'var(--text-secondary)' }}>
                 No purchases yet for {platform}
@@ -35,6 +47,6 @@ const TopUsersTable = ({ users, platform }) => {
       </table>
     </div>
   );
-};
+});
 
 export default TopUsersTable;

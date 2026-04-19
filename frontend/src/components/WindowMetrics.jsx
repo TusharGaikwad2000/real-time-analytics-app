@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { analyticsApi } from '../api/analyticsApi';
-import { Clock, TrendingUp } from 'lucide-react';
+// ...
+import Skeleton from './Skeleton';
 
 const WindowMetrics = ({ platform }) => {
   const [minutes, setMinutes] = useState(5);
@@ -15,7 +14,7 @@ const WindowMetrics = ({ platform }) => {
     } catch (error) {
       console.error('Fetch window error:', error);
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 300); // Shorter artificial delay for smooth transition
     }
   };
 
@@ -43,26 +42,22 @@ const WindowMetrics = ({ platform }) => {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <div style={{ background: 'var(--bg-tertiary)', padding: '1rem', borderRadius: '8px' }}>
-          <div className="kpi-label">Events</div>
-          <div style={{ fontSize: '1.25rem', fontWeight: '600', color: loading ? 'var(--text-secondary)' : 'white' }}>
-            {windowMetrics?.totalEvents || 0}
+        {[
+          { label: 'Events', value: windowMetrics?.totalEvents, color: 'white' },
+          { label: 'Revenue', value: windowMetrics?.totalRevenue !== undefined ? `$${(windowMetrics.totalRevenue).toLocaleString()}` : undefined, color: 'var(--success)' },
+          { label: 'Active Users', value: windowMetrics?.uniqueUsers, color: 'var(--warning)' }
+        ].map((item, idx) => (
+          <div key={idx} style={{ background: 'var(--bg-tertiary)', padding: '1rem', borderRadius: '8px' }}>
+            <div className="kpi-label">{item.label}</div>
+            {loading && !windowMetrics ? (
+              <Skeleton className="skeleton-text" style={{ width: '50%', height: '1.25rem', marginTop: '0.25rem' }} />
+            ) : (
+              <div style={{ fontSize: '1.25rem', fontWeight: '600', color: item.color }}>
+                {item.value !== undefined ? item.value : '0'}
+              </div>
+            )}
           </div>
-        </div>
-        
-        <div style={{ background: 'var(--bg-tertiary)', padding: '1rem', borderRadius: '8px' }}>
-          <div className="kpi-label">Revenue</div>
-          <div style={{ fontSize: '1.25rem', fontWeight: '600', color: loading ? 'var(--text-secondary)' : 'var(--success)' }}>
-            ${(windowMetrics?.totalRevenue || 0).toLocaleString()}
-          </div>
-        </div>
-
-        <div style={{ background: 'var(--bg-tertiary)', padding: '1rem', borderRadius: '8px' }}>
-          <div className="kpi-label">Active Users</div>
-          <div style={{ fontSize: '1.25rem', fontWeight: '600', color: loading ? 'var(--text-secondary)' : 'var(--warning)' }}>
-            {windowMetrics?.uniqueUsers || 0}
-          </div>
-        </div>
+        ))}
       </div>
       
       <p style={{ marginTop: '1rem', fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>

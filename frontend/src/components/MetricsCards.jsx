@@ -1,29 +1,30 @@
-import React from 'react';
-import { MousePointer2, ShoppingCart, UserCheck, BarChart3 } from 'lucide-react';
+import React, { memo } from 'react';
+import { Activity, MousePointer2, ShoppingCart, UserCheck, BarChart3 } from 'lucide-react';
+import Skeleton from './Skeleton';
 
-const MetricsCards = ({ metrics }) => {
+const MetricsCards = memo(({ metrics, loading }) => {
   const cards = [
     {
       label: 'Total Events',
-      value: metrics?.totalEvents || 0,
+      value: metrics?.totalEvents,
       icon: <Activity color="#58a6ff" />,
       color: '#58a6ff'
     },
     {
       label: 'Total Revenue',
-      value: `$${(metrics?.totalRevenue || 0).toLocaleString()}`,
+      value: metrics?.totalRevenue !== undefined ? `$${(metrics.totalRevenue).toLocaleString()}` : undefined,
       icon: <BarChart3 color="#3fb950" />,
       color: '#3fb950'
     },
     {
       label: 'Unique Users',
-      value: metrics?.uniqueUsers || 0,
+      value: metrics?.uniqueUsers,
       icon: <UserCheck color="#d29922" />,
       color: '#d29922'
     },
     {
       label: 'Purchases',
-      value: metrics?.actionBreakdown?.purchase || 0,
+      value: metrics?.actionBreakdown?.purchase,
       icon: <ShoppingCart color="#f85149" />,
       color: '#f85149'
     }
@@ -38,9 +39,15 @@ const MetricsCards = ({ metrics }) => {
           style={{ animationDelay: `${idx * 0.1}s` }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div>
+            <div style={{ flex: 1 }}>
               <div className="kpi-label">{card.label}</div>
-              <div className="kpi-value" style={{ color: card.color }}>{card.value}</div>
+              {loading && !metrics ? (
+                <Skeleton className="skeleton-text" style={{ width: '80%', height: '2rem', marginTop: '0.5rem' }} />
+              ) : (
+                <div className="kpi-value" style={{ color: card.color }}>
+                  {card.value !== undefined ? card.value : '0'}
+                </div>
+              )}
             </div>
             <div style={{ background: `${card.color}15`, padding: '0.75rem', borderRadius: '12px' }}>
               {React.cloneElement(card.icon, { size: 24 })}
@@ -50,9 +57,6 @@ const MetricsCards = ({ metrics }) => {
       ))}
     </div>
   );
-};
+});
 
 export default MetricsCards;
-
-// Activity icon was missing in import, adding it here manually for the cloneElement logic
-import { Activity } from 'lucide-react';
