@@ -1,4 +1,6 @@
-// ...
+import React, { useState, useEffect } from 'react';
+import { analyticsApi } from '../api/analyticsApi';
+import { Clock, TrendingUp } from 'lucide-react';
 import Skeleton from './Skeleton';
 
 const WindowMetrics = ({ platform }) => {
