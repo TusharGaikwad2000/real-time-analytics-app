@@ -38,7 +38,13 @@ cd backend
 node seed/seed.js
 ```
 
-## 🏗 Architecture & Trade-offs
+## Architecture & Trade-offs
+
+### Interactive Dashboard (Additional Feature)
+Although the primary focus of this assignment is the **Backend**, I have additionally built a **React-based Frontend Dashboard**. 
+- **Reason**: This allows the evaluator to visualize the real-time data processing in action.
+- **Verification**: It makes it easier to verify that the complex logic (like Sliding Window analytics and Top Users) is functioning correctly and instantly.
+- **Testing**: Using the "Simulate Event" form, you can trigger events manually and watch the backend update the KPIs and charts live.
 
 ### High Performance Architecture
 To avoid "brute force" scans for analytics:
