@@ -2,7 +2,7 @@
 
 A production-style real-time analytics system built with Node.js, Sequelize (PostgreSQL), and React. This system ingests event data (views, clicks, purchases) and serves aggregated metrics with sub-millisecond read times.
 
-## 🚀 Quick Start (Docker)
+##  Quick Start (Docker)
 
 The easiest way to run the entire stack (Database + Backend):
 
@@ -11,7 +11,7 @@ docker-compose up --build
 ```
 The backend will be available at `http://localhost:5000`.
 
-## 🛠 Manual Setup
+## Manual Setup
 
 ### 1. Database
 - Ensure PostgreSQL is running.
@@ -51,7 +51,7 @@ To avoid "brute force" scans for analytics:
 - Used for modularity and database abstraction.
 - Tables are automatically created/synced on startup (`sequelize.sync()`).
 
-## 🧪 API Documentation
+## API Documentation
 
 ### Ingestion
 - `POST /events`: Ingest single event.
@@ -63,7 +63,7 @@ To avoid "brute force" scans for analytics:
 - `GET /top-users?platform=amazon&k=5`: Top K payers.
 - `GET /metrics/window?platform=amazon&minutes=5`: Last N minutes rolling view.
 
-## 📝 Scaling for High Traffic
+## Scaling for High Traffic
 To scale this further:
 1. **Message Queue**: Use Kafka/RabbitMQ to buffer incoming events so ingestion doesn't block on DB writes.
 2. **TimescaleDB/Hypertable**: Use PostgreSQL extensions specifically designed for time-series data storage and compression.
