@@ -2,6 +2,12 @@
 
 A production-style real-time analytics system built with Node.js, Sequelize (PostgreSQL), and React. This system ingests event data (views, clicks, purchases) and serves aggregated metrics with sub-millisecond read times.
 
+## UI Preview
+
+| Dashboard Overview | Action Breakdown | Sliding Window Metrics |
+| :---: | :---: | :---: |
+| ![Dash 1](screenshots/dashboard_01.png) | ![Dash 2](screenshots/dashboard_02.png) | ![Dash 3](screenshots/dashboard_03.png) |
+
 ##  Quick Start (Docker)
 
 The easiest way to run the entire stack (Database + Backend):
